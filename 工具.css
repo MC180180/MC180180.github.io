@@ -35,7 +35,7 @@ body{
     text-decoration: none;
     margin: 30px 0;
     border: 2px solid #75f4ff;
-    padding: 20px 120px;
+    padding: 20px 20px;
     text-transform: uppercase;
     overflow: hidden;
     transition: 1s all ease;
@@ -63,7 +63,7 @@ body{
     text-decoration: none;
     margin: 8px 0;
     border: 2px solid #afafaf;
-    padding: 20px 120px;
+    padding: 20px 20px;
     text-transform: uppercase;
     overflow: hidden;
     transition: 1s all ease;
@@ -90,7 +90,7 @@ body{
     text-decoration: none;
     margin: 8px 0;
     border: 2px solid #75f4ff;
-    padding: 20px 120px;
+    padding: 20px 20px;
     text-transform: uppercase;
     overflow: hidden;
     transition: 1s all ease;
