@@ -85,6 +85,31 @@ body{
     transition: all 0.6s ease;
 }
 
+.b4{
+    position: relative;
+    display: block;
+    color: white;
+    font-size: 20px;
+    font-family: "montserrat";
+    text-decoration: none;
+    margin: 20px 0;
+    border: 2px solid #75e8ff;
+    padding: 5px 120px;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 1s all ease;
+}
+.b4::before{
+    background: #abf1ff50;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%,-50%)
+    z-index: -1;
+    transition: all 0.6s ease;
+}
+
 .btn1::before{
     width: 0;
     height: 100%;
