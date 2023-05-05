@@ -130,3 +130,42 @@ body{
 .btn3:hover::before{
     height: 380%;
 }
+
+
+
+
+
+
+/* 设置两个页面的共同样式 */
+article{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 100px;
+    box-sizing: border-box;
+    -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+    top: 0;
+  }
+  
+  /* 设置第一个页面的样式 */
+  #tablet{
+    background: #4ac4aa;
+    left: 0;
+  }
+  
+  /* 设置第二个页面的样式 */
+  #wifi{
+    background: #ea5634;
+    left: -100%;
+  }
+  
+  /* 设置淡入淡出效果 */
+  .move{
+    -webkit-transition: all 1.5s;
+    -moz-transition: all 1.5s;
+    -ms-transition: all 1.5s;
+    -o-transition: all 1.5s;
+    transition: all 1.5s;
+    opacity: 0;
+  }
