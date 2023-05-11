@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript计算器</title>
+  <style>
+    /* 这里是CSS样式，你可以自己修改 */
+    .calculator {
+      width: 300px;
+      margin: 50px auto;
+      border: 1px solid black;
+      padding: 10px;
+    }
+
+    .calculator__display {
+      width: 100%;
+      height: 50px;
+      font-size: 24px;
+      text-align: right;
+      border: 1px solid black;
+    }
+
+    .calculator__keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 10px;
+      margin-top: 10px;
+    }
+
+    .key--operator {
+      background-color: lightblue;
+    }
+
+    .key--equal {
+      background-color: lightgreen;
+    }
+
+    button {
+      height: 50px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="calculator__display">0</div>
+    <div class="calculator__keys">
+      <button class="key--operator" data-action="add">+</button>
+      <button class="key--operator" data-action="subtract">-</button>
+      <button class="key--operator" data-action="multiply">×</button>
+      <button class="key--operator" data-action="divide">÷</button>
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>0</button>
+      <button data-action="decimal">.</button>
+      <button data-action="clear">AC</button>
+      <button class="key--equal" data-action="calculate">=</button>
+    </div>
+  </div>
+
+  <!-- 这里是JS代码，你可以自己修改 -->
+  <script>
+    // 获取计算器的元素
+    var calculator = document.querySelector(".calculator");
+    var keys = calculator.querySelector(".calculator__keys");
+    var display = calculator.querySelector(".calculator__display");
+
+    // 定义一些变量来存储计算器的状态
+    var previousKeyType = "";
+    var firstValue = "";
+    var operator = "";
+    var secondValue = "";
+
+    // 监听键盘的点击事件
+    keys.addEventListener("click", function (event) {
+      // 如果点击的不是按钮，直接返回
+      if (!event.target.matches("button")) return;
+
+      // 获取点击的按钮和它的值
+      var key = event.target;
+      var keyValue = key.textContent;
+
+      // 获取显示屏的值
+      var displayValue = display.textContent;
+
+      // 根据按钮的类型执行不同的操作
+      var type = key.dataset.action;
+      if (type === "number") {
+        // 如果显示屏的值是0或者上一次按的是运算符，就替换显示屏的值，否则就追加值
+        if (displayValue === "0" || previousKeyType === "operator") {
+          display.textContent = keyValue;
+        } else {
+          display.textContent += keyValue;
+        }
+        // 更新上一次按键的类型为数字
+        previousKeyType = "number";
+      } else if (type === "operator") {
+        // 如果上一次按的是运算符，就更新运算符，否则就执行计算
+        if (previousKeyType === "operator") {
+          operator = keyValue;
+        } else {
+          // 获取第一个操作数和运算符
+          firstValue = displayValue;
+          operator = keyValue;
+          // 清空显示屏，等待输入第二个操作数
+          display.textContent = "";
+        }
+        // 更新上一次按键的类型为运算符
+        previousKeyType = "operator
+        </script>
+    </body>
+</html>
