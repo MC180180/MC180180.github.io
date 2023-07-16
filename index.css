@@ -183,6 +183,11 @@ body{
     left: -180px;
     z-index: 1;
 }
+#endo {
+    position: absolute;
+    top: 210px;
+    left: 0px;
+}
 #rn1 {
     position: absolute;
     top: 30px;
