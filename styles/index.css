@@ -155,8 +155,22 @@ body {
 
 }
 
+#f {
+    position: absolute;
+    bottom: 0;
+    text-decoration: none;
+}
 
+#f > a {
+    text-decoration: none;
+    color: rgb(92, 241, 241);
+    transition: 0.6s;
+}
 
+#f > a:hover {
+    color: rgb(12, 145, 145);
+    transition: 0.6s;
+}
 
 
 .rpp {
