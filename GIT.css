@@ -21,7 +21,7 @@ ul
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    font-size: 4.5em;
+    font-size: 2.5em;
 }
 ul li
 {
@@ -36,6 +36,12 @@ ul li a
     color: #555;
     cursor: none;
 }
+.A
+{
+    text-decoration: none;
+    color: #bbb;
+    cursor: none;
+}
 ul li a span
 {
     position: relative;
@@ -45,12 +51,12 @@ ul li a span
 }
 ul li:hover a span
 {
-    color: #9ff;
-    text-shadow: 0 0 5px #9ff,
-    0 0 15px #9ff,
-    0 0 30px #9ff,
-    0 0 60px #9ff,
-    0 0 100px #9ff;
+    color: #fff;
+    text-shadow: 0 0 5px #fff,
+    0 0 15px #fff,
+    0 0 30px #fff,
+    0 0 60px #fff,
+    0 0 100px #fff;
 }
 #cursor
 {
@@ -58,11 +64,11 @@ ul li:hover a span
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #9ff;
-    box-shadow: 0 0 5px #9ff,
-    0 0 15px #9ff,
-    0 0 30px #9ff,
-    0 0 60px #9ff;
+    background: #fff;
+    box-shadow: 0 0 5px #fff,
+    0 0 15px #fff,
+    0 0 30px #fff,
+    0 0 60px #fff;
     transform: translate(-50%,-50%);
     pointer-events: none;
     opacity: 0;

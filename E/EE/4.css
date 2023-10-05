@@ -72,3 +72,12 @@ body:hover #cursor
 {
     opacity: 1;
 }
+.G
+{
+    color: #fff;
+    text-shadow: 0 0 2px #fff,
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 30px #fff,
+    0 0 50px #fff;
+}
