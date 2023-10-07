@@ -1,0 +1,62 @@
+<html>
+
+<head>
+	<meta charset="utf-8" name="viewport"
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Main</title>
+	<link rel="stylesheet" href="MG.css">
+</head>
+
+<body>
+<div>
+	<ul>
+		<li><a class="G">作品展览</a><a href="/index.html">index</a></li>
+		<li><a href="/index.html">加载一辈子</a></li>
+		<li><a href="/index.html">加载一辈子</a></li>
+		<li><a href="/index.html">加载一辈子</a></li>
+		
+		<a href="MG/1.png"><img src="MG/1.png" class="M"></a>
+		<a href="MG/2.png"><img src="MG/2.png" class="M"></a>
+		<a href="MG/3.png"><img src="MG/3.png" class="M"></a>
+		<a href="MG/4.png"><img src="MG/4.png" class="M"></a>
+		<a href="MG/5.png"><img src="MG/5.png" class="M"></a>
+		<a href="MG/6.png"><img src="MG/6.png" class="M"></a>
+		<a href="MG/7.png"><img src="MG/7.png" class="M"></a>
+		<a href="MG/8.png"><img src="MG/8.png" class="M"></a>
+		<a href="MG/9.png"><img src="MG/9.png" class="M"></a>
+		<a href="MG/10.png"><img src="MG/10.png" class="M"></a>
+		<a href="MG/11.png"><img src="MG/11.png" class="M"></a>
+		<a href="MG/12.png"><img src="MG/12.png" class="M"></a>
+		<a href="MG/13.png"><img src="MG/13.png" class="M"></a>
+		<a href="MG/14.png"><img src="MG/14.png" class="M"></a>
+		<a href="MG/15.png"><img src="MG/15.png" class="M"></a>
+		<a href="MG/16.png"><img src="MG/16.png" class="M"></a>
+		<a href="MG/17.png"><img src="MG/17.png" class="M"></a>
+		<a href="MG/18.png"><img src="MG/18.png" class="M"></a>
+		<a href="MG/19.png"><img src="MG/19.png" class="M"></a>
+		<a href="MG/20.png"><img src="MG/20.png" class="M"></a>
+		<a href="MG/21.png"><img src="MG/21.png" class="M"></a>
+		<a href="MG/22.png"><img src="MG/22.png" class="M"></a>
+		<a href="MG/23.png"><img src="MG/23.png" class="M"></a>
+		<a href="MG/24.png"><img src="MG/24.png" class="M"></a>
+		<a href="MG/25.png"><img src="MG/25.png" class="M"></a>
+		<li><a href="/index.html">index</a></li>
+		<div id="cursor"></div>
+	</ul>
+	<script>
+		let text = document.querySelectorAll('ul li a').forEach
+		(text => {
+			text.innerHTML = text.innerText.split('').map((letters,
+			i) => `<span style="transition-delay:${i*40}ms;">${letters}</apsn>`).join('');
+		})
+
+		let cursor = document.querySelector('#cursor')
+		document.addEventListener('mousemove', (e) => {
+			cursor.style.top = e.pageY + 'px';
+			cursor.style.left = e.pageX + 'px';
+		})
+	</script>
+</div>
+</body>
+
+</html>
