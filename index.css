@@ -72,3 +72,10 @@ body:hover #cursor
 {
     opacity: 1;
 }
+
+.r
+{
+    text-decoration: none;
+    color: #232323;
+    cursor: none;
+}

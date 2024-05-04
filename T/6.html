@@ -1,0 +1,44 @@
+<html>
+
+<head>
+	<meta charset="utf-8" name="viewport"
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Main</title>
+	<link rel="stylesheet" href="H.css">
+</head>
+
+<body>
+<div>
+	<ul>
+		<li><a href="" class="A">T -- 6</a></li>
+		<li><a href="">-</a></li>
+		<li><a href="">-</a></li>
+		<li><a href="">-</a></li>
+		<li><a href="">-</a></li>
+		<li><a href="">-</a></li>
+		<li><a href="">-</a></li>
+		<li>
+			<a href="1.html"> 1 </a><a href="2.html"> 2 </a>
+			<a href="3.html"> 3 </a><a href="4.html"> 4 </a>
+			<a href="5.html"> 5 </a><a href="6.html" class="G"> 6 </a>
+		</li>
+		<li><a href="/index.html">index</a></li>
+		<div id="cursor"></div>
+	</ul>
+	<script>
+		let text = document.querySelectorAll('ul li a').forEach
+		(text => {
+			text.innerHTML = text.innerText.split('').map((letters,
+			i) => `<span style="transition-delay:${i*40}ms;">${letters}</apsn>`).join('');
+		})
+
+		let cursor = document.querySelector('#cursor')
+		document.addEventListener('mousemove', (e) => {
+			cursor.style.top = e.pageY + 'px';
+			cursor.style.left = e.pageX + 'px';
+		})
+	</script>
+</div>
+</body>
+
+</html>
