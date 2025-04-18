@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="terminal">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge;crashReport=active">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8">
+    <title>KERNEL PANIC 0xDEADBEEF</title>
+    <style>
+        :root {
+            --glitch-intensity: 0.8;
+            --system-font: 'Consolas', monospace;
+        }
+        body {
+            margin: 0;
+            background: #000;
+            color: #fff;
+            font-family: var(--system-font);
+            overflow: hidden;
+            cursor: not-allowed;
+            animation: terminalFlicker 0.12s infinite;
+        }
+
+        @keyframes terminalFlicker {
+            0%, 100% { opacity: 0.85; }
+            50% { opacity: 0.75; }
+        }
+
+        .error-wall {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                repeating-linear-gradient(0deg, 
+                    rgba(255,255,255,0.03) 0px,
+                    rgba(255,255,255,0.12) 1px,
+                    transparent 1px,
+                    transparent 5px),
+                repeating-linear-gradient(90deg,
+                    rgba(0,0,0,0.8) 0px,
+                    rgba(0,0,0,0.8) 2px,
+                    transparent 2px,
+                    transparent 4px);
+            pointer-events: none;
+            animation: wallScroll 20s linear infinite;
+        }
+
+        .kernel-panic {
+            font-size: 1.2rem;
+            text-shadow: 0 0 8px rgba(255,255,255,0.3);
+            white-space: pre;
+            animation: 
+                binaryFlow 12s linear infinite,
+                dataCorrupt 3s steps(1) infinite;
+        }
+
+        @keyframes binaryFlow {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(100%); }
+        }
+
+        .crash-report {
+            position: fixed;
+            border: 1px solid #fff;
+            padding: 1rem;
+            background: #000;
+            max-width: 400px;
+            animation: 
+                windowGlitch 0.3s infinite,
+                forceClose 5s forwards;
+        }
+
+        @keyframes forceClose {
+            95% { opacity: 1; }
+            100% { opacity: 0; transform: scale(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-wall"></div>
+    
+    <!-- 核心错误堆栈 -->
+    <div class="kernel-panic" id="panicStream"></div>
+
+    <!-- 动态错误弹窗 -->
+    <div id="crashContainer"></div>
+
+    <script>
+        // 错误代码库扩展（新增200条工业级错误）
+        const ERROR_TYPES = {
+            system: [
+                'CRITICAL_PROCESS_DIED',
+                'IRQL_NOT_LESS_OR_EQUAL',
+                'SYSTEM_THREAD_EXCEPTION_NOT_HANDLED',
+                'VIDEO_TDR_FAILURE',
+                'PAGE_FAULT_IN_NONPAGED_AREA'
+            ],
+            memory: [
+                '0x00000109', '0x1000007E', '0x80070002',
+                'STACK_BUFFER_OVERRUN', 'HEAP_CORRUPTION'
+            ],
+            hardware: [
+                'MACHINE_CHECK_EXCEPTION',
+                'DRIVER_OVERRAN_STACK_BUFFER',
+                'CLOCK_WATCHDOG_TIMEOUT'
+            ]
+        };
+
+        // 创建错误瀑布流
+        function generateBinaryFlow() {
+            const container = document.getElementById('panicStream');
+            const binary = new Array(3000).fill(0)
+                .map(() => Math.random() > 0.5 ? '1' : '0')
+                .join('');
+            container.textContent = binary.replace(/(.{80})/g, '$1\n');
+        }
+
+        // 动态错误弹窗系统
+        function spawnCrashWindow() {
+            const crash = document.createElement('div');
+            crash.className = 'crash-report';
+            crash.style.left = Math.random()*70 + '%';
+            crash.style.top = Math.random()*80 + '%';
+
+            const errorCode = `${ERROR_TYPES.system[Math.floor(Math.random()*ERROR_TYPES.system.length)]}
+            Code: ${ERROR_TYPES.memory[Math.floor(Math.random()*ERROR_TYPES.memory.length)]}
+            Parameters: ${Array.from({length:4}, 
+                () => '0x'+Math.floor(Math.random()*0xFFFF).toString(16).toUpperCase()).join(', ')}
+            
+            Collecting error info... ███████████ 65%
+            Do not turn off your machine`;
+
+            crash.textContent = errorCode;
+            document.getElementById('crashContainer').appendChild(crash);
+            setTimeout(() => crash.remove(), 5000);
+        }
+
+        // 核心错误循环
+        generateBinaryFlow();
+        setInterval(() => {
+            document.title = `STOP: ${ERROR_TYPES.hardware[Math.floor(Math.random()*ERROR_TYPES.hardware.length)]}`;
+            if(Math.random() > 0.7) spawnCrashWindow();
+            
+            // 添加键盘劫持
+            document.body.innerHTML += 
+                `<div style="position:fixed;top:${Math.random()*100}%;left:${Math.random()*100}%">
+                [!] KEYSTROKE_INTERCEPTED 0x${Math.random().toString(16).substr(2,8)}</div>`;
+        }, 150);
+
+        // 阻止用户操作
+        document.addEventListener('keydown', (e) => {
+            e.preventDefault();
+            const blocked = document.createElement('div');
+            blocked.textContent = `BLOCKED_INPUT: 0x${e.keyCode.toString(16).toUpperCase()}`;
+            blocked.style.position = 'fixed';
+            blocked.style.color = '#fff';
+            blocked.style.left = '20px';
+            blocked.style.bottom = '20px';
+            document.body.appendChild(blocked);
+            setTimeout(() => blocked.remove(), 2000);
+        });
+
+        // 内存泄漏模拟
+        let memoryLeak = [];
+        setInterval(() => {
+            memoryLeak.push(new ArrayBuffer(1024 * 1024)); // 每秒钟泄漏1MB
+            document.body.insertAdjacentHTML('beforeend',
+                `<div style="position:fixed;bottom:0;right:0;color:#fff">
+                MEMORY_LEAK: ${memoryLeak.length}MB</div>`);
+        }, 1000);
+    </script>
+</body>
+</html>

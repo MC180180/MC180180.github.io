@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#FF0000">
+    <meta property="og:title" content="你无处可逃">
+    <meta name="description" content="这里什么都没有...或者说曾经有过？">
+    <meta name="author" content="Unknown Entity">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="arg:dimension" content="404-B">
+    <title>404 - 不存在于此</title>
+    <style>
+        :root {
+            --red: #FF0000;
+            --white: #FFFFFF;
+            --black: #000000;
+        }
+
+        body {
+            margin: 0;
+            background: var(--black);
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        .container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .text-container {
+            position: relative;
+            mix-blend-mode: difference;
+        }
+
+        .main-text {
+            font-family: monospace;
+            font-size: 8rem;
+            color: var(--red);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0);
+            animation: text-shake 0.2s infinite alternate;
+        }
+
+        .sub-text {
+            font-family: sans-serif;
+            color: var(--white);
+            text-align: center;
+            margin-top: 20px;
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes text-shake {
+            0% { transform: translate(-2px, -3px); }
+            100% { transform: translate(2px, 3px); }
+        }
+
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                opacity: 0;
+            }
+        }
+
+        .glitch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                transparent 2px,
+                var(--red) 2px,
+                var(--red) 4px
+            );
+            animation: glitch 5s infinite;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        @keyframes glitch {
+            0% { transform: skew(0deg); }
+            5% { transform: skew(3deg); }
+            10% { transform: skew(-2deg); }
+            15% { transform: skew(0deg); }
+        }
+
+        .blood {
+            position: fixed;
+            background: var(--red);
+            pointer-events: none;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glitch"></div>
+        <div class="text-container">
+            <h1 class="main-text">404</h1>
+            <div class="sub-text">我找到你了</div>
+            <div class="sub-text" style="font-size: 0.8em; margin-top: 1em">你本不该来到此处</div>
+        </div>
+    </div>
+
+    <script>
+        function createBlood() {
+            const blood = document.createElement('div');
+            blood.className = 'blood';
+            const size = Math.random() * 30 + 10;
+            blood.style.width = `${size}px`;
+            blood.style.height = `${size}px`;
+            blood.style.left = `${Math.random() * 100}%`;
+            blood.style.top = `${Math.random() * 100}%`;
+            blood.style.animation = `blood-drop ${Math.random() * 2 + 1}s linear`;
+            document.body.appendChild(blood);
+            
+            setTimeout(() => blood.remove(), 2000);
+        }
+
+        // 随机血滴效果
+        setInterval(createBlood, 500);
+
+        // 鼠标交互效果
+        document.addEventListener('mousemove', (e) => {
+            document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
+            document.documentElement.style.setProperty('--cursor-y', `${e.clientY}px`);
+        });
+
+        // 随机文字抖动增强
+        setInterval(() => {
+            const text = document.querySelector('.main-text');
+            text.style.animation = `text-shake ${Math.random() * 0.1 + 0.05}s infinite alternate`;
+        }, 3000);
+    </script>
+</body>
+</html>

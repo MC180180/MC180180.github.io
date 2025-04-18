@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自适应平铺方格图</title>
+    <style>
+        :root {
+            --grid-spacing: 20px;      /* 方格间距 */
+            --item-width: 250px;       /* 方格宽度 */
+            --item-padding: 20px;      /* 内边距 */
+            --item-border: 1px solid #e0e0e0; /* 边框样式 */
+            --item-radius: 8px;        /* 圆角半径 */
+            --title-size: 18px;        /* 主标题字号 */
+            --subtitle-size: 14px;     /* 副标题字号 */
+            --title-color: #333;       /* 主标题颜色 */
+            --subtitle-color: #666;    /* 副标题颜色 */
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f5f5;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, var(--item-width));
+            gap: var(--grid-spacing);
+            padding: var(--grid-spacing);
+        }
+
+        .grid-item {
+            background: white;
+            border: var(--item-border);
+            border-radius: var(--item-radius);
+            padding: var(--item-padding);
+            transition: filter 0.3s ease-in-out;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: calc(var(--item-radius) / 2);
+            margin-bottom: 15px;
+        }
+
+        .grid-item h2 {
+            margin: 0 0 8px 0;
+            font-size: var(--title-size);
+            color: var(--title-color);
+        }
+
+        .grid-item p {
+            margin: 0;
+            font-size: var(--subtitle-size);
+            color: var(--subtitle-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- 4列3行共12个方格 -->
+        <div class="grid-item">
+            <img src="img/Icon163.png" alt="示例图片">
+            <a href="https://www.123865.com/s/t5CcVv-fGX6v" style="color: #e0e0e0"><h2>万象熔炉 任何 XL</h2>
+            <p>6GB XL 检查点</p></a>
+        </div>
+        <div class="grid-item">
+          <img src="img/Icon199.png" alt="示例图片">
+          <a href="https://www.123865.com/s/t5CcVv-IGX6v" style="color: #e0e0e0"><h2>BL工程文件</h2>
+          <p>24-11-13 56GB</p></a>
+        </div>
+        <div class="grid-item">
+          <img src="img/Icon205.png" alt="示例图片">
+          <a href="https://www.123865.com/s/t5CcVv-wGX6v" style="color: #e0e0e0"><h2>BL蚊子包</h2>
+          <p>318MB 字体</p></a> 
+        </div>
+        <div class="grid-item">
+          <img src="img/Icon219.png" alt="示例图片">
+          <a href="https://www.123865.com/s/t5CcVv-XGX6v" style="color: #e0e0e0"><h2>KIOLL-ALL</h2>
+          <p>278MB 训练集</p></a>
+        </div>
+    </div>
+
+    <script>
+        // 鼠标悬停效果
+        document.querySelectorAll('.grid-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                document.querySelectorAll('.grid-item').forEach(otherItem => {
+                    otherItem.style.filter = otherItem === item ? 'none' : 'brightness(0.8)';
+                });
+            });
+
+            item.addEventListener('mouseleave', () => {
+                document.querySelectorAll('.grid-item').forEach(otherItem => {
+                    otherItem.style.filter = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

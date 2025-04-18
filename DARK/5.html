@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/* 定义CSS全局变量 */
+:root {
+  --border-color: #160a0a;          /* 默认边框颜色 */
+  --border-hover: #ff0000;       /* 悬停时边框颜色 */
+  --border-width: 2px;           /* 边框宽度 */
+  --line-color: rgba(0, 0, 0, 0.1); /* 辅助线颜色 */
+  --underline-height: 3px;       /* 下划线高度 */
+}
+
+/* 基础页面样式 */
+body {
+  margin: 0;                     /* 清除默认外边距 */
+  height: 100vh;                 /* 视口高度100% */
+  display: grid;                 /* 使用网格布局 */
+  place-items: center;           /* 内容居中显示 */
+  background: #160a0a;           /* 页面背景色 */
+}
+
+/* 双列容器样式 */
+.column-container {
+  display: grid;                 /* 网格布局 */
+  grid-template-columns: repeat(2, 1fr); /* 创建等宽两列 */
+  gap: 60px;                     /* 列间距 */
+  position: relative;            /* 相对定位 */
+  padding: 40px;                 /* 内边距 */
+}
+
+/* 单列样式 */
+.column {
+  position: relative;            /* 相对定位 */
+  padding: 20px;                 /* 内边距 */
+}
+
+/* 列边框伪元素 */
+.column::before {
+  content: '';                   /* 必须属性 */
+  position: absolute;            /* 绝对定位 */
+  inset: 0;                      /* 覆盖整个父元素 */
+  border: var(--border-width) solid var(--border-color); /* 使用CSS变量 */
+  transition: border-color 0.3s ease; /* 边框颜色过渡动画 */
+}
+
+/* 文本项基础样式 */
+.text-item {
+    
+  margin: 15px 0;                /* 上下边距 */
+  padding: 8px;                  /* 内边距 */
+  position: relative;            /* 相对定位 */
+  overflow: hidden;              /* 隐藏溢出内容 */
+}
+
+/* 链接样式 */
+.text-item a {
+  color: #a00000;                   /* 文字颜色 */
+  text-decoration: none;         /* 去除下划线 */
+  position: relative;            
+  display: inline-block;         
+  transition: color 0.3s;       /* 颜色过渡动画 */
+  padding-bottom: 5px;          /* 下边距增加间距 */
+}
+
+/* 下划线动画效果 */
+.text-item a::after {
+  content: '';                   
+  position: absolute;
+  bottom: 0;                     /* 定位到底部 */
+  left: 0;
+  width: 120%;                   /* 超宽设计用于动画效果 */
+  height: var(--underline-height); /* 使用变量定义高度 */
+  background: linear-gradient(   /* 渐变背景 */
+    90deg,
+    rgb(255, 63, 49) 100%,          /* 渐变颜色设置 */
+    rgba(255, 17, 17, 0.6) 100%,
+    rgba(23, 19, 255, 0) 100%
+  );
+  transform: translateX(110%) skew(-15deg); /* 初始位置和倾斜 */
+  opacity: 0;                    /* 初始透明度 */
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 复杂过渡曲线 */
+  z-index: -1;                   /* 置于文字下方 */
+}
+
+/* 悬停时下划线动画 */
+.text-item a:hover::after {
+  transform: translateX(-15%) skew(-15deg); /* 最终位置 */
+  opacity: 1;                     /* 完全显示 */
+}
+
+/* 列悬停交互效果 */
+.column:hover::before {
+  border-color: var(--border-hover); /* 悬停时改变边框颜色 */
+}
+
+.top-container {
+  position: fixed;  /* 固定定位 */
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  background: rgba(219, 50, 50, 0.178); /* 半透明背景 */
+}
+
+</style>
+</head>
+<body>
+    <div class="top-container">
+        <span style="font-weight: bold; font-size: 40px;color: #f00b0b">HTTPS</span>
+      </div>
+  <!-- 双列容器结构 -->
+  <div class="column-container"style="font-weight: bold; font-size: 26px">
+    <!-- 左列 -->
+    <div class="column">
+      <div class="text-item"><a href="https://q4phzityrn.feishu.cn/drive/folder/fldcn25dLelkuhLIgLGY1DIJUhe">AOD</a></div>
+      <div class="text-item"><a href="https://www.diskanalyzer.com/">Wiztree维兹树</a></div>
+      <div class="text-item"><a href="">-</a></div>
+      <div class="text-item"><a href="">-</a></div>
+      <div class="text-item"><a href="">-</a></div>
+      <div class="text-item"><a href="">-</a></div>
+    </div>
+
+    <!-- 右列 -->
+    <div class="column">
+      <div class="text-item"><a href="1.html">1</a></div>
+      <div class="text-item"><a href="2.html">2</a></div>
+      <div class="text-item"><a href="3.html">3</a></div>
+      <div class="text-item"><a href="4.html">4</a></div>
+      <div class="text-item"><a href="/index.html" style="color: #ff3e3e">MAIN</a></div>
+      <div class="text-item"><a href="6.html">6</a></div>
+    </div>
+  </div>
+</body>
+</html>
