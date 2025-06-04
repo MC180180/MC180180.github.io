@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文字悬停居中效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #fff;
+            color: #424242;
+            font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.6;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 30px;
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 60px;
+            letter-spacing: 1.5px;
+            position: relative;
+            color: #424242;
+        }
+        
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: #424242;
+            border-radius: 2px;
+        }
+        
+        .text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 20px 0;
+        }
+        
+        .text-item {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: default;
+            padding: 12px 60px; /* 增加两侧内边距预留空间 */
+        }
+        
+        .text-content {
+            display: flex;
+            position: relative;
+        }
+        
+        .main-text {
+            font-size: 26px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: transform 0.5s ease;
+            white-space: nowrap;
+        }
+        
+        .additional-text {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            padding-left: 15px;
+            font-size: 20px;
+            font-weight: 400;
+            opacity: 0;
+            transform: translateX(-25px);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        
+        /* 确保悬停时整体居中 */
+        .text-item:hover .main-text {
+            transform: translateX(-30%);
+        }
+        
+        .text-item:hover .additional-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* 解决方案说明 */
+        .solution {
+            background-color: rgba(66, 66, 66, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 50px;
+            text-align: left;
+            max-width: 650px;
+        }
+        
+        .solution h2 {
+            color: #424242;
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(66, 66, 66, 0.1);
+        }
+        
+        .solution ul {
+            padding-left: 25px;
+        }
+        
+        .solution li {
+            margin-bottom: 15px;
+            line-height: 1.7;
+            color: #424242;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 25px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            letter-spacing: 0.8px;
+        }
+        
+        @media (max-width: 600px) {
+            .title {
+                font-size: 28px;
+            }
+            
+            .main-text {
+                font-size: 22px;
+            }
+            
+            .additional-text {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">悬停文字居中效果</h1>
+        
+        <div class="text-container">
+            <div class="text-item">
+                <div class="text-content">
+                    <span class="main-text">用户体验设计</span>
+                    <span class="additional-text">以用户为中心</span>
+                </div>
+            </div>
+            <div class="text-item">
+                <div class="text-content">
+                    <span class="main-text">交互界面</span>
+                    <span class="additional-text">简洁而高效</span>
+                </div>
+            </div>
+            <div class="text-item">
+                <div class="text-content">
+                    <span class="main-text">视觉层次</span>
+                    <span class="additional-text">清晰的信息架构</span>
+                </div>
+            </div>
+            <div class="text-item">
+                <div class="text-content">
+                    <span class="main-text">交互动效</span>
+                    <span class="additional-text">流畅自然的过渡</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="solution">
+            <h2>居中问题解决方案</h2>
+            <ul>
+                <li><strong>双重定位技术</strong>：使用flex居中容器结合绝对定位元素，确保初始状态严格居中</li>
+                <li><strong>精确的平移计算</strong>：主文字平移-30%同时附加文字从左侧滑入，保持整体居中</li>
+                <li><strong>空间预留</strong>：为附加文字预留足够空间(两侧60px内边距)，避免布局偏移</li>
+                <li><strong>贝塞尔曲线动画</strong>：使用cubic-bezier(0.165, 0.84, 0.44, 1)实现更自然的缓动效果</li>
+                <li><strong>相对单位</strong>：使用百分比平移而非固定像素值，适应不同文字长度</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer">悬停查看效果 | 2025年06月03日</div>
+</body>
+</html>
