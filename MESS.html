@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>逐位解密动画 + 动态线条 + 掉落复制</title>
+<style>
+:root {
+  --color-light: #f8f9fa;
+  --color-dark: #424242;
+}
+
+body {
+  margin: 0;
+  font-family: "SimHei", "Microsoft YaHei", sans-serif;
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  position: relative;
+  transition: transform 1s, opacity 1s;
+}
+
+.cards {
+  display: flex;
+  gap: 2rem;
+  transition: transform 1s, opacity 1s;
+}
+
+.card {
+  width: 80px;
+  height: 80px;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 8px;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+.long-card {
+  width: 360px;
+  height: 100px;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  border-radius: 8px;
+  position: relative;
+  overflow: visible;
+  transition: transform 1s, opacity 1s;
+  cursor: pointer;
+  user-select: none;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 1s, transform 1s;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.decrypted-text span {
+  display: inline-block;
+  opacity: 0;
+  font-family: "SimHei", sans-serif;
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="container">
+  <div class="cards" id="topCards">
+    <div class="card" id="card0"></div>
+    <div class="card" id="card1"></div>
+    <div class="card" id="card2"></div>
+  </div>
+
+  <div class="long-card" id="result">
+    <div class="decrypted-text" id="decrypted"></div>
+  </div>
+
+  <svg id="lines"></svg>
+</div>
+
+<script>
+const targetInput = "180";
+const correctText = "77f89pqg";
+let inputDigits = [];
+const cards = [document.getElementById("card0"), document.getElementById("card1"), document.getElementById("card2")];
+const decrypted = document.getElementById("decrypted");
+const svg = document.getElementById("lines");
+const result = document.getElementById("result");
+const container = document.getElementById("container");
+const topCards = document.getElementById("topCards");
+let linesDrawn = false;
+
+// 卡片渐入
+cards.forEach((card, i) => card.style.animationDelay = `${i*0.3}s`);
+
+function randomChar() {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  return chars[Math.floor(Math.random()*chars.length)];
+}
+
+// 绘制动态线条
+function drawLines() {
+  if(linesDrawn) return;
+  svg.innerHTML = "";
+  const containerRect = container.getBoundingClientRect();
+  const longRect = result.getBoundingClientRect();
+
+  cards.forEach((card) => {
+    const cardRect = card.getBoundingClientRect();
+    const x1 = cardRect.left + cardRect.width/2 - containerRect.left;
+    const y1 = cardRect.bottom - containerRect.top;
+    const x2 = longRect.left + longRect.width/2 - containerRect.left;
+    const y2 = longRect.top - containerRect.top;
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", x1);
+    line.setAttribute("y1", y1);
+    line.setAttribute("x2", x1); 
+    line.setAttribute("y2", y1);
+    line.setAttribute("stroke", "#424242"); 
+    line.setAttribute("stroke-width", 3);
+    line.setAttribute("stroke-linecap", "round");
+    svg.appendChild(line);
+
+    // 动画生长
+    let progress = 0;
+    const steps = 20;
+    const interval = setInterval(() => {
+      progress++;
+      const curX = x1 + (x2 - x1) * (progress / steps);
+      const curY = y1 + (y2 - y1) * (progress / steps);
+      line.setAttribute("x2", curX);
+      line.setAttribute("y2", curY);
+      if (progress >= steps) clearInterval(interval);
+    }, 30);
+  });
+  linesDrawn = true;
+}
+
+// 监听键盘输入
+document.addEventListener("keydown", (e) => {
+  if (e.key >= '0' && e.key <= '9' && inputDigits.length < 3) {
+    inputDigits.push(e.key);
+    cards[inputDigits.length - 1].textContent = e.key;
+
+    if (inputDigits.length === 3) {
+      // 确定最终文本
+      let finalText = inputDigits.join('') === targetInput 
+                      ? correctText 
+                      : Array.from({length: correctText.length}, randomChar).join('');
+      drawLines();
+      setTimeout(() => decryptAnimation(finalText), 500);
+    }
+  }
+});
+
+// 逐位解密动画
+function decryptAnimation(text) {
+  decrypted.innerHTML = "";
+  text.split("").forEach((c, i) => {
+    const span = document.createElement("span");
+    decrypted.appendChild(span);
+    let attempts = 0;
+    const maxAttempts = 10 + i*5;
+    const interval = setInterval(() => {
+      span.textContent = randomChar();
+      span.style.opacity = 1;
+      attempts++;
+      if (attempts >= maxAttempts) {
+        clearInterval(interval);
+        span.textContent = c;
+
+        // 当最后一位解密完，触发上方渐隐动画
+        if(i === text.length - 1) {
+          hideTopElements();
+        }
+      }
+    }, 50);
+  });
+}
+
+// 上方卡片和线条渐隐，长卡片居中
+function hideTopElements() {
+  topCards.style.transform = "translateY(-100px)";
+  topCards.style.opacity = "0";
+  svg.style.opacity = "0";
+  result.style.transform = "translateY(-50px)";
+}
+
+// 点击复制 + 卡片下落动画
+result.addEventListener("click", () => {
+  const text = decrypted.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    // 卡片下落+旋转+渐隐
+    result.style.transition = "transform 1s ease-in, opacity 1s ease-in";
+    result.style.transform += " translateY(200px) rotate(30deg)";
+    result.style.opacity = "0";
+  }).catch(err => console.error("复制失败:", err));
+});
+
+// 窗口大小改变时重新绘制线条（仅位置，不重复动画）
+window.addEventListener("resize", drawLines);
+</script>
+</body>
+</html>
